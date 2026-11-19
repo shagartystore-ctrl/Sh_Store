@@ -11,9 +11,16 @@ const overlay = document.querySelector('#overlay');
 const checkoutForm = document.querySelector('#checkoutForm');
 const receiptField = document.querySelector('#receiptField');
 const checkoutMessage = document.querySelector('#checkoutMessage');
+const customerFields = ['customer_name', 'phone', 'address'];
+
+function mediaMarkup(product) {
+  if (!product.image_url) return '<div class="mini-bottle"></div>';
+  if (product.media_type === 'video') return `<video src="${product.image_url}" controls muted playsinline preload="metadata" aria-label="${product.name}"></video>`;
+  return `<img src="${product.image_url}" alt="${product.name}" loading="lazy">`;
+}
 
 function renderProducts() {
-  grid.innerHTML = products.map((product) => `<article class="product-card"><div class="product-image">${product.image_url ? `<img src="${product.image_url}" alt="${product.name}" loading="lazy">` : '<div class="mini-bottle"></div>'}<span class="product-tag">${product.tag || ''}</span></div><div class="product-info"><div><h3>${product.name}</h3><p>${product.description || ''}</p></div><strong class="price">${Number(product.price).toLocaleString('ar-EG')} ج.م</strong></div><button class="add-product" data-id="${product.id}">أضف للسلة +</button></article>`).join('');
+  grid.innerHTML = products.map((product) => `<article class="product-card"><div class="product-image">${mediaMarkup(product)}<span class="product-tag">${product.tag || ''}</span></div><div class="product-info"><div><h3>${product.name}</h3><p>${product.description || ''}</p></div><strong class="price">${Number(product.price).toLocaleString('ar-EG')} ج.م</strong></div><button class="add-product" data-id="${product.id}">أضف للسلة +</button></article>`).join('');
   document.querySelectorAll('.add-product').forEach((button) => button.addEventListener('click', () => addToCart(Number(button.dataset.id))));
 }
 
@@ -45,6 +52,15 @@ function renderCart() {
 
 function openCart() { cartDrawer.classList.add('open'); cartDrawer.setAttribute('aria-hidden', 'false'); overlay.classList.add('show'); }
 function closeCart() { cartDrawer.classList.remove('open'); cartDrawer.setAttribute('aria-hidden', 'true'); overlay.classList.remove('show'); }
+
+function loadCustomerDetails() {
+  customerFields.forEach((name) => {
+    const field = checkoutForm.elements[name];
+    const saved = localStorage.getItem(`shagarty_${name}`);
+    if (field && saved) field.value = saved;
+    field?.addEventListener('input', () => localStorage.setItem(`shagarty_${name}`, field.value));
+  });
+}
 
 function syncPaymentUI() {
   const selected = document.querySelector('input[name="payment_method"]:checked')?.value || 'cod';
@@ -102,6 +118,7 @@ document.querySelector('#checkout').addEventListener('click', () => {
 });
 document.querySelectorAll('input[name="payment_method"]').forEach((radio) => radio.addEventListener('change', syncPaymentUI));
 syncPaymentUI();
+loadCustomerDetails();
 checkoutForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   checkoutMessage.textContent = 'جارِ إرسال الطلب…';
@@ -123,6 +140,7 @@ checkoutForm.addEventListener('submit', async (event) => {
     checkoutMessage.textContent = `تم تسجيل الطلب رقم ${result.order_id} بنجاح.`;
     cart = [];
     checkoutForm.reset();
+    loadCustomerDetails();
     receiptField.hidden = true;
     renderCart();
   } catch (error) {

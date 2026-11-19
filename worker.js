@@ -12,7 +12,8 @@ const isAdmin = (request, env) => {
 };
 const productPayload = (body) => ({
   name: clean(body.name, 120), description: clean(body.description, 240), price: Math.max(0, Number(body.price || 0)),
-  category: body.category === 'gift' ? 'gift' : 'oil', tag: clean(body.tag, 60), image_url: clean(body.image_url, 1000),
+  category: body.category === 'gift' ? 'gift' : 'oil', tag: clean(body.tag, 60), image_url: clean(body.image_url, 1800000),
+  media_type: body.media_type === 'video' ? 'video' : 'image',
   active: body.active === false ? 0 : 1, sort_order: Number(body.sort_order || 0)
 });
 
@@ -68,15 +69,15 @@ export default {
         }
         if (path === '/api/admin/products' && request.method === 'POST') {
           const product = productPayload(await request.json());
-          const result = await env.DB.prepare('INSERT INTO products (name,description,price,category,tag,image_url,active,sort_order) VALUES (?,?,?,?,?,?,?,?)')
-            .bind(product.name, product.description, product.price, product.category, product.tag, product.image_url, product.active, product.sort_order).run();
+          const result = await env.DB.prepare('INSERT INTO products (name,description,price,category,tag,image_url,media_type,active,sort_order) VALUES (?,?,?,?,?,?,?,?,?)')
+            .bind(product.name, product.description, product.price, product.category, product.tag, product.image_url, product.media_type, product.active, product.sort_order).run();
           return json({ ok: true, id: result.meta.last_row_id }, 201);
         }
         const productId = Number(path.split('/').pop());
         if (path.startsWith('/api/admin/products/') && request.method === 'PATCH') {
           const product = productPayload(await request.json());
-          await env.DB.prepare('UPDATE products SET name=?,description=?,price=?,category=?,tag=?,image_url=?,active=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?')
-            .bind(product.name, product.description, product.price, product.category, product.tag, product.image_url, product.active, product.sort_order, productId).run();
+          await env.DB.prepare('UPDATE products SET name=?,description=?,price=?,category=?,tag=?,image_url=?,media_type=?,active=?,sort_order=?,updated_at=CURRENT_TIMESTAMP WHERE id=?')
+            .bind(product.name, product.description, product.price, product.category, product.tag, product.image_url, product.media_type, product.active, product.sort_order, productId).run();
           return json({ ok: true });
         }
         if (path.startsWith('/api/admin/products/') && request.method === 'DELETE') {
