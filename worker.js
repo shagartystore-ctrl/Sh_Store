@@ -17,7 +17,7 @@ export default {
     try {
       if (path === '/health') return json({ ok: true, service: 'shagarty-store-api' });
       if (path === '/api/auth/guest' && request.method === 'POST') {
-        const body = await request.json().catch(() => ({})); const sessionToken = randomToken(); const guestName = clean(body.name, 120) || 'زائر شجرتي'; const phone = clean(body.phone, 30); const email = `${sessionToken}@anonymous.shagarty.local`;
+        const body = await request.json().catch(() => ({})); const sessionToken = randomToken(); const guestName = clean(body.name, 120) || `زائر شجرتي ${sessionToken.slice(0, 5).toUpperCase()}`; const phone = clean(body.phone, 30); const email = `${sessionToken}@anonymous.shagarty.local`;
         const result = await env.DB.prepare('INSERT INTO users (name,email,phone,password_hash,password_salt) VALUES (?,?,?,?,?)').bind(guestName, email, phone, '', '').run();
         await env.DB.prepare("INSERT INTO sessions (token,user_id,expires_at) VALUES (?,?,datetime('now','+365 days'))").bind(sessionToken, result.meta.last_row_id).run();
         return json({ token: sessionToken, user: { id: result.meta.last_row_id, name: guestName, phone } }, 201);
