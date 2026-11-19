@@ -1,0 +1,8 @@
+name = "shagarty-store-api"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "shagarty_store"
+database_id = "eaf0e5b7-2999-47ae-b8e8-d3fc4321c55e"
