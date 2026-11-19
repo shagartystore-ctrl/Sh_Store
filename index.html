@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="زيتونة — زيت زيتون بكر ممتاز من المزرعة إلى باب بيتك." />
+    <title>زيتونة | زيت زيتون بكر ممتاز</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="announcement">شحن مجاني للطلبات فوق 750 جنيه <span>•</span> عصر الموسم الجديد وصل</div>
+
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="زيتونة - الصفحة الرئيسية">
+        <span class="brand-mark">ز</span>
+        <span><strong>زيتونة</strong><small>من أرضنا لبيتك</small></span>
+      </a>
+      <nav class="main-nav" aria-label="التنقل الرئيسي">
+        <a href="#products">المنتجات</a>
+        <a href="#story">حكايتنا</a>
+        <a href="#quality">الجودة</a>
+        <a href="#contact">تواصل معنا</a>
+      </nav>
+      <button class="cart-button" id="openCart" aria-label="فتح سلة المشتريات">السلة <span id="cartCount">0</span></button>
+    </header>
+
+    <main id="top">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">حصاد نقي • طعم أصيل</p>
+          <h1>قطرة من الشمس،<br /><em>على سفرتك.</em></h1>
+          <p class="hero-text">زيت زيتون بكر ممتاز يُعصر على البارد من أجود ثمار الزيتون، ويحافظ على نكهته ورائحته وقيمته الطبيعية.</p>
+          <div class="hero-actions"><a class="button button-primary" href="#products">تسوّق الآن <span>←</span></a><a class="text-link" href="#story">اكتشف حكايتنا</a></div>
+          <div class="hero-notes"><span>✓ عصر على البارد</span><span>✓ بدون إضافات</span><span>✓ توصيل لباب البيت</span></div>
+        </div>
+        <div class="hero-art" aria-label="زجاجة زيت زيتون مرسومة">
+          <div class="sun"></div><div class="olive-branch branch-one"><i></i><i></i><i></i><i></i><i></i></div><div class="bottle"><div class="bottle-cap"></div><div class="bottle-label"><b>زيتونة</b><small>بكر ممتاز</small><span>زيت زيتون</span></div></div><div class="olive-branch branch-two"><i></i><i></i><i></i><i></i></div>
+        </div>
+      </section>
+
+      <section class="trust-row" id="quality"><div><strong>01</strong><span>ثمار مختارة<br /><small>من أفضل المزارع</small></span></div><div><strong>02</strong><span>عصر على البارد<br /><small>خلال ساعات من الحصاد</small></span></div><div><strong>03</strong><span>طعم يُحكى عنه<br /><small>نكهة متوازنة وغنية</small></span></div></section>
+
+      <section class="products-section" id="products">
+        <div class="section-heading"><div><p class="eyebrow">اختار نكهتك</p><h2>زيوتنا المفضلة</h2></div><div class="filters" role="group" aria-label="فلترة المنتجات"><button class="filter active" data-filter="all">الكل</button><button class="filter" data-filter="oil">زيوت</button><button class="filter" data-filter="gift">هدايا</button></div></div>
+        <div class="products-grid" id="productsGrid"></div>
+      </section>
+
+      <section class="story" id="story"><div class="story-visual"><div class="story-circle">منذ<br /><b>1998</b></div><div class="story-leaf leaf-a"></div><div class="story-leaf leaf-b"></div></div><div class="story-copy"><p class="eyebrow">حكاية زيتونة</p><h2>الأرض تعرف<br /><em>الطعم الحقيقي.</em></h2><p>بدأت الحكاية من بستان صغير في قلب واحة سيوة. كبر البستان، لكن طريقتنا لم تتغير: نختار الثمرة بعناية، نعصرها في وقتها، ونعبئها كما لو كانت لبيتنا.</p><a class="text-link" href="#contact">اعرف المزيد عن زيتونة ←</a></div></section>
+
+      <section class="newsletter" id="contact"><div><p class="eyebrow">خليك قريب</p><h2>أخبار الموسم<br />توصلك أولاً.</h2></div><form id="newsletterForm"><input type="email" placeholder="بريدك الإلكتروني" aria-label="البريد الإلكتروني" required /><button class="button button-dark" type="submit">اشترك الآن</button><small id="formMessage"></small></form></section>
+    </main>
+
+    <footer class="site-footer"><div class="brand footer-brand"><span class="brand-mark">ز</span><span><strong>زيتونة</strong><small>من أرضنا لبيتك</small></span></div><p>زيت بكر ممتاز، يُحكى من أول قطرة.</p><span>© 2026 زيتونة</span></footer>
+
+    <aside class="cart-drawer" id="cartDrawer" aria-hidden="true"><div class="drawer-head"><h2>سلة مشترياتك</h2><button id="closeCart" aria-label="إغلاق السلة">×</button></div><div id="cartItems" class="cart-items"><p class="empty-cart">السلة فاضية لسه.<br />اختار قطرتك المفضلة!</p></div><div class="cart-footer"><div><span>الإجمالي</span><strong id="cartTotal">0 ج.م</strong></div><button class="button button-primary" id="checkout">إتمام الطلب</button></div></aside><div class="overlay" id="overlay"></div>
+    <script src="script.js"></script>
+  </body>
+</html>
