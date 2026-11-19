@@ -46,6 +46,12 @@ function renderCart() {
 function openCart() { cartDrawer.classList.add('open'); cartDrawer.setAttribute('aria-hidden', 'false'); overlay.classList.add('show'); }
 function closeCart() { cartDrawer.classList.remove('open'); cartDrawer.setAttribute('aria-hidden', 'true'); overlay.classList.remove('show'); }
 
+function syncPaymentUI() {
+  const selected = document.querySelector('input[name="payment_method"]:checked')?.value || 'cod';
+  receiptField.hidden = selected !== 'vodafone_cash';
+  document.querySelectorAll('[data-payment-option]').forEach((option) => option.classList.toggle('selected', option.dataset.paymentOption === selected));
+}
+
 async function loadProducts() {
   try {
     const response = await fetch(`${API_BASE}/api/products`);
@@ -89,10 +95,13 @@ document.querySelector('#checkout').addEventListener('click', () => {
   if (!cart.length) { alert('أضف المنتج إلى السلة أولًا.'); return; }
   checkoutForm.hidden = !checkoutForm.hidden;
   checkoutMessage.textContent = '';
+  if (!checkoutForm.hidden) {
+    syncPaymentUI();
+    checkoutForm.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
 });
-document.querySelectorAll('input[name="payment_method"]').forEach((radio) => radio.addEventListener('change', () => {
-  receiptField.hidden = document.querySelector('input[name="payment_method"]:checked').value !== 'vodafone_cash';
-}));
+document.querySelectorAll('input[name="payment_method"]').forEach((radio) => radio.addEventListener('change', syncPaymentUI));
+syncPaymentUI();
 checkoutForm.addEventListener('submit', async (event) => {
   event.preventDefault();
   checkoutMessage.textContent = 'جارِ إرسال الطلب…';
