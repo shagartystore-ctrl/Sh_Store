@@ -7,3 +7,10 @@ CREATE TABLE IF NOT EXISTS reviews (id INTEGER PRIMARY KEY AUTOINCREMENT, produc
 CREATE INDEX IF NOT EXISTS idx_products_active ON products(active, sort_order);
 CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status, created_at);
 CREATE INDEX IF NOT EXISTS idx_reviews_product ON reviews(product_id, approved, created_at);
+
+CREATE TABLE IF NOT EXISTS store_settings (key TEXT PRIMARY KEY, value TEXT NOT NULL, updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP);
+INSERT OR IGNORE INTO store_settings (key,value) VALUES ('shipping_fee','80');
+INSERT OR IGNORE INTO store_settings (key,value) VALUES ('currency','EGP');
+INSERT OR IGNORE INTO store_settings (key,value) VALUES ('cash_number','01014761698');
+CREATE INDEX IF NOT EXISTS idx_orders_user ON orders(user_id, created_at);
+CREATE INDEX IF NOT EXISTS idx_orders_phone ON orders(phone, created_at);
